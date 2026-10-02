@@ -140,7 +140,7 @@ const ClientView = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <div className="success-actions">
             <button className="btn btn-primary" onClick={downloadQR}>
               <Download size={18} style={{marginRight: 8}}/> Descargar QR
             </button>
