@@ -18,6 +18,21 @@ const initialTickets = [
   { id: 'TKT-8891', category: 'Base de Datos', subject: 'Lentitud extrema en consultas de reportes', user: 'e.diaz@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 88, time: new Date(Date.now() - 80*60000) },
   { id: 'TKT-8890', category: 'Redes', subject: 'No hay conexión a internet en sala de juntas', user: 'a.navarro@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 94, time: new Date(Date.now() - 20*60000) },
   { id: 'TKT-8889', category: 'Hardware', subject: 'Monitor parpadea constantemente', user: 'v.castro@empresa.com', status: 'Pendiente', priority: 'Baja', aiScore: 20, time: new Date(Date.now() - 300*60000) },
+  { id: 'TKT-8888', category: 'Software', subject: 'Licencia de Office caducada', user: 'j.rodriguez@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 50, time: new Date(Date.now() - 15*60000) },
+  { id: 'TKT-8887', category: 'Redes', subject: 'Microcortes en la conexión ethernet', user: 'a.silva@empresa.com', status: 'Pendiente', priority: 'Alta', aiScore: 82, time: new Date(Date.now() - 250*60000) },
+  { id: 'TKT-8886', category: 'Accesos', subject: 'Desbloqueo de cuenta de usuario', user: 'm.morales@empresa.com', status: 'Cerrado', priority: 'Alta', aiScore: 90, time: new Date(Date.now() - 2800*60000) },
+  { id: 'TKT-8885', category: 'Hardware', subject: 'Teclado con teclas atascadas', user: 'l.fernandez@empresa.com', status: 'Cerrado', priority: 'Baja', aiScore: 10, time: new Date(Date.now() - 4000*60000) },
+  { id: 'TKT-8884', category: 'Base de Datos', subject: 'Error de integridad referencial en tabla de clientes', user: 'k.ortiz@empresa.com', status: 'Escalado', priority: 'Crítica', aiScore: 99, time: new Date(Date.now() - 45*60000) },
+  { id: 'TKT-8883', category: 'General', subject: 'Duda sobre política de vacaciones', user: 'p.castillo@empresa.com', status: 'Cerrado', priority: 'Baja', aiScore: 5, time: new Date(Date.now() - 5000*60000) },
+  { id: 'TKT-8882', category: 'Software', subject: 'Adobe Illustrator no guarda archivos', user: 'r.vega@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 55, time: new Date(Date.now() - 65*60000) },
+  { id: 'TKT-8881', category: 'Accesos', subject: 'Creación de credenciales para nuevo ingreso', user: 't.rios@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 80, time: new Date(Date.now() - 12*60000) },
+  { id: 'TKT-8880', category: 'Redes', subject: 'Latencia alta hacia el servidor de archivos', user: 'n.iglesias@empresa.com', status: 'Pendiente', priority: 'Media', aiScore: 48, time: new Date(Date.now() - 210*60000) },
+  { id: 'TKT-8879', category: 'Hardware', subject: 'Reemplazo de batería de UPS', user: 'g.soto@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 89, time: new Date(Date.now() - 95*60000) },
+  { id: 'TKT-8878', category: 'Software', subject: 'Zoom se queda congelado al compartir pantalla', user: 'y.mendoza@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 35, time: new Date(Date.now() - 25*60000) },
+  { id: 'TKT-8877', category: 'General', subject: 'Solicitud de silla ergonómica', user: 'w.cruz@empresa.com', status: 'Pendiente', priority: 'Baja', aiScore: 8, time: new Date(Date.now() - 1100*60000) },
+  { id: 'TKT-8876', category: 'Base de Datos', subject: 'Backup nocturno fallido', user: 's.reyes@empresa.com', status: 'Escalado', priority: 'Crítica', aiScore: 98, time: new Date(Date.now() - 600*60000) },
+  { id: 'TKT-8875', category: 'Accesos', subject: 'Revocar acceso a ex-empleado urgente', user: 'f.guzman@empresa.com', status: 'Abierto', priority: 'Crítica', aiScore: 100, time: new Date(Date.now() - 5*60000) },
+  { id: 'TKT-8874', category: 'Hardware', subject: 'Proyector de la sala A no enciende', user: 'j.vargas@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 70, time: new Date(Date.now() - 30*60000) },
 ];
 
 export const TicketProvider = ({ children }) => {
