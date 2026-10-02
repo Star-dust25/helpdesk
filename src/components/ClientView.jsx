@@ -133,7 +133,7 @@ const ClientView = () => {
             <div style={{ background: '#FFF', padding: '16px', borderRadius: '12px', display: 'inline-flex' }}>
               <QRCodeCanvas 
                 id="success-qr" 
-                value={`Ticket ID: ${lastTicketRef}\nAsunto: ${subject}\nEstado: Pendiente\nLink: https://aegis-ai.empresa.com/ticket/${lastTicketRef}`} 
+                value={`https://helpdesk-theta-one.vercel.app/?ticket=${lastTicketRef}`} 
                 size={150} 
                 level={"H"} 
               />

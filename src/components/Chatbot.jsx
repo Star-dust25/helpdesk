@@ -140,7 +140,7 @@ const Chatbot = () => {
                     <div style={{ background: '#FFF', padding: '8px', borderRadius: '8px', display: 'inline-flex' }}>
                        <QRCodeCanvas 
                          id={`qr-${msg.ticketId}`} 
-                         value={`Ticket ID: ${msg.ticketId}\nAsunto: Solicitud Vía Chat\nEstado: Pendiente\nLink: https://aegis-ai.empresa.com/ticket/${msg.ticketId}`} 
+                         value={`https://helpdesk-theta-one.vercel.app/?ticket=${msg.ticketId}`} 
                          size={120} 
                          level={"H"} 
                        />
