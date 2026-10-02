@@ -71,7 +71,7 @@ const AgentView = () => {
           <h1>Centro de Comando</h1>
           <p>Visión general en tiempo real de operaciones de soporte e incidentes priorizados por IA.</p>
         </div>
-        <div className="header-actions desktop-only">
+        <div className="header-actions">
           <button 
             className={`btn ${slaFilterActive ? 'btn-primary' : 'btn-outline'}`} 
             onClick={() => {
