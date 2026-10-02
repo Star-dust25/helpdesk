@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import { Activity, Clock, Users, ShieldAlert, Cpu, AlertCircle, MoreVertical, Check, Trash2, X } from 'lucide-react';
+import { ShieldAlert, Cpu, AlertCircle, MoreVertical, Check, Trash2, X } from 'lucide-react';
 import { TicketContext } from '../context/TicketContext';
 import './AgentView.css';
 
@@ -71,20 +71,6 @@ const AgentView = () => {
           <h1>Centro de Comando</h1>
           <p>Visión general en tiempo real de operaciones de soporte e incidentes priorizados por IA.</p>
         </div>
-        <div className="header-actions">
-          <button 
-            className={`btn ${slaFilterActive ? 'btn-primary' : 'btn-outline'}`} 
-            onClick={() => {
-              setSlaFilterActive(!slaFilterActive);
-              if(!slaFilterActive && slaAlertsCount === 0) showToast('No hay alertas SLA activas.', 'info');
-            }}
-          >
-            <AlertCircle size={16} /> Alertas SLA ({slaAlertsCount})
-          </button>
-          <button className="btn btn-primary" onClick={escalateCriticalTickets}>
-            <ShieldAlert size={16} /> Escalar Críticos
-          </button>
-        </div>
       </header>
 
       <div className="metrics-grid">
@@ -121,66 +107,68 @@ const AgentView = () => {
           </div>
         </div>
         
-        <div className="table-responsive">
-          <table className="ticket-table">
-            <thead>
-              <tr>
-                <th>ID Ticket</th>
-                <th>Estado</th>
-                <th>Asunto</th>
-                <th>Solicitante</th>
-                <th>Prioridad</th>
-                <th>Triaje IA</th>
-                <th>Tiempo</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTickets.length > 0 ? filteredTickets.map(ticket => (
-                <tr key={ticket.id} className="ticket-row" style={{ opacity: ticket.status === 'Cerrado' ? 0.6 : 1 }}>
-                  <td className="ticket-id">{ticket.id}</td>
-                  <td>
-                    <span style={{ color: getStatusColor(ticket.status), fontWeight: 500, fontSize: '0.85rem' }}>
-                      ● {ticket.status}
-                    </span>
-                  </td>
-                  <td className="ticket-subject">{ticket.subject}</td>
-                  <td className="ticket-user">{ticket.user}</td>
-                  <td>{getPriorityBadge(ticket.priority)}</td>
-                  <td>{getAiRecommendation(ticket.aiScore)}</td>
-                  <td className="ticket-time">{formatTime(ticket.time)}</td>
-                  <td className="ticket-action" style={{ position: 'relative' }}>
-                    <button className="icon-btn" onClick={() => setOpenMenuId(openMenuId === ticket.id ? null : ticket.id)}>
-                      <MoreVertical size={18} />
-                    </button>
-                    {openMenuId === ticket.id && (
-                      <div className="action-menu" ref={menuRef}>
-                        {ticket.status !== 'Cerrado' && (
-                          <button onClick={() => { updateTicketStatus(ticket.id, 'Cerrado'); setOpenMenuId(null); }}>
-                            <Check size={14} color="#10B981" /> Marcar Resuelto
-                          </button>
-                        )}
-                        {ticket.status === 'Cerrado' && (
-                          <button onClick={() => { updateTicketStatus(ticket.id, 'Abierto'); setOpenMenuId(null); }}>
-                            <X size={14} color="#F59E0B" /> Reabrir Ticket
-                          </button>
-                        )}
-                        <button onClick={() => { deleteTicket(ticket.id); setOpenMenuId(null); }} className="danger">
-                          <Trash2 size={14} color="#EF4444" /> Eliminar
+        {/* Funciones movidas hacia abajo, antes de la lista de tarjetas */}
+        <div className="global-actions">
+          <button 
+            className={`btn ${slaFilterActive ? 'btn-primary' : 'btn-outline'}`} 
+            onClick={() => {
+              setSlaFilterActive(!slaFilterActive);
+              if(!slaFilterActive && slaAlertsCount === 0) showToast('No hay alertas SLA activas.', 'info');
+            }}
+          >
+            <AlertCircle size={16} /> Alertas SLA ({slaAlertsCount})
+          </button>
+          <button className="btn btn-primary" onClick={escalateCriticalTickets}>
+            <ShieldAlert size={16} /> Escalar Críticos
+          </button>
+        </div>
+        
+        <div className="ticket-cards-container">
+          {filteredTickets.length > 0 ? filteredTickets.map(ticket => (
+            <div key={ticket.id} className="ticket-card" style={{ opacity: ticket.status === 'Cerrado' ? 0.6 : 1 }}>
+              <div className="ticket-card-header">
+                <div className="ticket-id">{ticket.id}</div>
+                <div className="ticket-actions-container" style={{ position: 'relative' }}>
+                  <button className="icon-btn" onClick={() => setOpenMenuId(openMenuId === ticket.id ? null : ticket.id)}>
+                    <MoreVertical size={18} />
+                  </button>
+                  {openMenuId === ticket.id && (
+                    <div className="action-menu" ref={menuRef}>
+                      {ticket.status !== 'Cerrado' && (
+                        <button onClick={() => { updateTicketStatus(ticket.id, 'Cerrado'); setOpenMenuId(null); }}>
+                          <Check size={14} color="#10B981" /> Marcar Resuelto
                         </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              )) : (
-                <tr>
-                  <td colSpan="8" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
-                    No se encontraron tickets con ese criterio.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                      )}
+                      {ticket.status === 'Cerrado' && (
+                        <button onClick={() => { updateTicketStatus(ticket.id, 'Abierto'); setOpenMenuId(null); }}>
+                          <X size={14} color="#F59E0B" /> Reabrir Ticket
+                        </button>
+                      )}
+                      <button onClick={() => { deleteTicket(ticket.id); setOpenMenuId(null); }} className="danger">
+                        <Trash2 size={14} color="#EF4444" /> Eliminar
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <h3 className="ticket-subject">{ticket.subject}</h3>
+              <p className="ticket-user">{ticket.user}</p>
+              
+              <div className="ticket-card-footer">
+                <span style={{ color: getStatusColor(ticket.status), fontWeight: 500, fontSize: '0.85rem' }}>
+                  ● {ticket.status}
+                </span>
+                {getPriorityBadge(ticket.priority)}
+                {getAiRecommendation(ticket.aiScore)}
+                <span className="ticket-time">{formatTime(ticket.time)}</span>
+              </div>
+            </div>
+          )) : (
+            <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+              No se encontraron tickets con ese criterio.
+            </div>
+          )}
         </div>
       </div>
     </div>

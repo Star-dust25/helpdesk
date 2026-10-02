@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { Clock, Users, Cpu, Activity } from 'lucide-react';
 
 export const TicketContext = createContext();
 
@@ -95,10 +96,10 @@ export const TicketProvider = ({ children }) => {
   const pendingCount = tickets.filter(t => t.status === 'Abierto' || t.status === 'Pendiente' || t.status === 'Escalado').length;
   
   const metrics = [
-    { id: 1, title: 'Tickets Pendientes', value: pendingCount.toString(), change: pendingCount > 3 ? '+12%' : '-2%', color: 'var(--accent-cyan)' },
-    { id: 2, title: 'SLA Promedio', value: '1.2 hrs', change: '-5%', color: 'var(--accent-violet)' },
-    { id: 3, title: 'Agentes Activos', value: '24/30', change: '80%', color: '#10B981' },
-    { id: 4, title: 'Automatización IA', value: '68%', change: '+3%', color: '#F59E0B' },
+    { id: 1, title: 'Tickets Pendientes', value: pendingCount.toString(), change: pendingCount > 3 ? '+12%' : '-2%', color: 'var(--accent-cyan)', icon: <Activity size={20} /> },
+    { id: 2, title: 'SLA Promedio', value: '1.2 hrs', change: '-5%', color: 'var(--accent-violet)', icon: <Clock size={20} /> },
+    { id: 3, title: 'Agentes Activos', value: '24/30', change: '80%', color: '#10B981', icon: <Users size={20} /> },
+    { id: 4, title: 'Automatización IA', value: '68%', change: '+3%', color: '#F59E0B', icon: <Cpu size={20} /> },
   ];
 
   return (
