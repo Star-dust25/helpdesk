@@ -1,8 +1,14 @@
 .sidebar-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   margin-bottom: 24px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand-title {
@@ -13,6 +19,15 @@
 
 .brand-title span {
   color: var(--accent-cyan);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  padding: 4px;
 }
 
 .sidebar-nav {
@@ -64,21 +79,21 @@
   .sidebar-header {
     margin-bottom: 0;
   }
+  .mobile-menu-btn {
+    display: block;
+  }
   .sidebar-nav {
-    flex-direction: row;
-    gap: 16px;
-    align-items: center;
-  }
-  .nav-section {
-    flex-direction: row;
-  }
-  .nav-heading {
     display: none;
+    padding-top: 24px;
+    padding-bottom: 12px;
+    animation: fadeIn 0.3s ease;
   }
-  .nav-item span {
-    display: none;
+  .sidebar-nav.open {
+    display: flex;
   }
-  .nav-item {
-    padding: 8px;
-  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

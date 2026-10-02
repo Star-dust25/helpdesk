@@ -319,10 +319,7 @@ button {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
-    padding: 16px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    padding: 16px 24px;
   }
   
   .main-content {
