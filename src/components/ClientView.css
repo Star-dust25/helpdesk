@@ -173,4 +173,10 @@
   .view-header p {
     font-size: 0.95rem;
   }
+  .ai-actions {
+    flex-direction: column;
+  }
+  .ai-actions button {
+    width: 100%;
+  }
 }

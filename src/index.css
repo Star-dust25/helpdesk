@@ -324,6 +324,7 @@ button {
   
   .main-content {
     padding: 16px;
+    padding-bottom: 90px;
   }
   
   .desktop-only {
