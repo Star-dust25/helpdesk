@@ -4,10 +4,20 @@ import { Clock, Users, Cpu, Activity } from 'lucide-react';
 export const TicketContext = createContext();
 
 const initialTickets = [
-  { id: 'TKT-8902', subject: 'Tiempo de espera agotado en base de datos', user: 'j.doe@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 98, time: new Date(Date.now() - 10*60000) },
-  { id: 'TKT-8901', subject: 'No puedo acceder a la wiki interna', user: 'm.smith@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 45, time: new Date(Date.now() - 25*60000) },
-  { id: 'TKT-8900', subject: 'Solicitud de nueva licencia de software', user: 'a.johnson@empresa.com', status: 'Pendiente', priority: 'Baja', aiScore: 12, time: new Date(Date.now() - 60*60000) },
-  { id: 'TKT-8899', subject: 'Puerta de enlace VPN inalcanzable', user: 's.lee@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 95, time: new Date(Date.now() - 120*60000) },
+  { id: 'TKT-8902', category: 'Base de Datos', subject: 'Tiempo de espera agotado en base de datos', user: 'j.doe@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 98, time: new Date(Date.now() - 10*60000) },
+  { id: 'TKT-8901', category: 'Accesos', subject: 'No puedo acceder a la wiki interna', user: 'm.smith@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 45, time: new Date(Date.now() - 25*60000) },
+  { id: 'TKT-8900', category: 'Software', subject: 'Solicitud de nueva licencia de software', user: 'a.johnson@empresa.com', status: 'Pendiente', priority: 'Baja', aiScore: 12, time: new Date(Date.now() - 60*60000) },
+  { id: 'TKT-8899', category: 'Redes', subject: 'Puerta de enlace VPN inalcanzable', user: 's.lee@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 95, time: new Date(Date.now() - 120*60000) },
+  { id: 'TKT-8898', category: 'Hardware', subject: 'Laptop no enciende tras actualización', user: 'p.gomez@empresa.com', status: 'Escalado', priority: 'Crítica', aiScore: 99, time: new Date(Date.now() - 180*60000) },
+  { id: 'TKT-8897', category: 'Accesos', subject: 'Restablecimiento de contraseña de correo', user: 'l.torres@empresa.com', status: 'Cerrado', priority: 'Media', aiScore: 85, time: new Date(Date.now() - 240*60000) },
+  { id: 'TKT-8896', category: 'Software', subject: 'Error 500 en el portal de facturación', user: 'c.ruiz@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 92, time: new Date(Date.now() - 30*60000) },
+  { id: 'TKT-8895', category: 'Redes', subject: 'Wi-Fi intermitente en la oficina central', user: 'h.martinez@empresa.com', status: 'Pendiente', priority: 'Media', aiScore: 40, time: new Date(Date.now() - 400*60000) },
+  { id: 'TKT-8894', category: 'Hardware', subject: 'Impresora atascada en el piso 3', user: 'd.garcia@empresa.com', status: 'Cerrado', priority: 'Baja', aiScore: 15, time: new Date(Date.now() - 1440*60000) },
+  { id: 'TKT-8893', category: 'Accesos', subject: 'Permisos insuficientes para carpeta compartida', user: 'm.lopez@empresa.com', status: 'Abierto', priority: 'Media', aiScore: 65, time: new Date(Date.now() - 50*60000) },
+  { id: 'TKT-8892', category: 'Software', subject: 'Aplicación de nómina se cierra inesperadamente', user: 'f.herrera@empresa.com', status: 'Escalado', priority: 'Crítica', aiScore: 97, time: new Date(Date.now() - 150*60000) },
+  { id: 'TKT-8891', category: 'Base de Datos', subject: 'Lentitud extrema en consultas de reportes', user: 'e.diaz@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 88, time: new Date(Date.now() - 80*60000) },
+  { id: 'TKT-8890', category: 'Redes', subject: 'No hay conexión a internet en sala de juntas', user: 'a.navarro@empresa.com', status: 'Abierto', priority: 'Alta', aiScore: 94, time: new Date(Date.now() - 20*60000) },
+  { id: 'TKT-8889', category: 'Hardware', subject: 'Monitor parpadea constantemente', user: 'v.castro@empresa.com', status: 'Pendiente', priority: 'Baja', aiScore: 20, time: new Date(Date.now() - 300*60000) },
 ];
 
 export const TicketProvider = ({ children }) => {
@@ -44,6 +54,7 @@ export const TicketProvider = ({ children }) => {
   const addTicket = (ticket) => {
     const newTicket = {
       ...ticket,
+      category: ticket.category || 'General',
       id: `TKT-${Math.floor(Math.random() * 9000) + 1000}`,
       status: 'Abierto',
       time: new Date()

@@ -6,6 +6,9 @@ import './AgentView.css';
 const AgentView = () => {
   const { tickets, metrics, updateTicketStatus, deleteTicket, showToast, slaAlertsCount, escalateCriticalTickets } = useContext(TicketContext);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
   const [openMenuId, setOpenMenuId] = useState(null);
   const [slaFilterActive, setSlaFilterActive] = useState(false);
   const menuRef = useRef(null);
@@ -36,11 +39,16 @@ const AgentView = () => {
     }
   };
 
-  let filteredTickets = tickets.filter(t => 
-    t.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    t.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    t.user.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  let filteredTickets = tickets.filter(t => {
+    const matchesSearch = t.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          t.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          t.user.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === '' || t.status === statusFilter;
+    const matchesPriority = priorityFilter === '' || t.priority === priorityFilter;
+    const matchesCategory = categoryFilter === '' || (t.category && t.category === categoryFilter);
+
+    return matchesSearch && matchesStatus && matchesPriority && matchesCategory;
+  });
 
   if (slaFilterActive) {
     filteredTickets = filteredTickets.filter(t => t.status === 'Abierto' && (new Date() - new Date(t.time)) > 60*60000);
@@ -103,7 +111,37 @@ const AgentView = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="btn btn-outline" onClick={() => { setSearchTerm(''); setSlaFilterActive(false); showToast('Filtros reiniciados'); }}>Limpiar Filtros</button>
+            <select className="form-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <option value="">Todos los Estados</option>
+              <option value="Abierto">Abierto</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Escalado">Escalado</option>
+              <option value="Cerrado">Cerrado</option>
+            </select>
+            <select className="form-select" value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
+              <option value="">Todas las Prioridades</option>
+              <option value="Crítica">Crítica</option>
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+            <select className="form-select" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+              <option value="">Todas las Categorías</option>
+              <option value="Accesos">Accesos</option>
+              <option value="Base de Datos">Base de Datos</option>
+              <option value="Hardware">Hardware</option>
+              <option value="Redes">Redes</option>
+              <option value="Software">Software</option>
+              <option value="General">General</option>
+            </select>
+            <button className="btn btn-outline clear-filters-btn" onClick={() => { 
+              setSearchTerm(''); 
+              setStatusFilter('');
+              setPriorityFilter('');
+              setCategoryFilter('');
+              setSlaFilterActive(false); 
+              showToast('Filtros reiniciados'); 
+            }}>Limpiar Filtros</button>
           </div>
         </div>
         
@@ -160,6 +198,7 @@ const AgentView = () => {
                   ● {ticket.status}
                 </span>
                 {getPriorityBadge(ticket.priority)}
+                {ticket.category && <span className="badge" style={{background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)'}}>{ticket.category}</span>}
                 {getAiRecommendation(ticket.aiScore)}
                 <span className="ticket-time">{formatTime(ticket.time)}</span>
               </div>
