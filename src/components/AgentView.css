@@ -244,6 +244,21 @@
   color: #EF4444;
 }
 
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .table-header {
     flex-direction: column;

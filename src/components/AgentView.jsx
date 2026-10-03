@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import { ShieldAlert, Cpu, AlertCircle, MoreVertical, Check, Trash2, X } from 'lucide-react';
+import { ShieldAlert, Cpu, AlertCircle, MoreVertical, Check, Trash2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TicketContext } from '../context/TicketContext';
 import './AgentView.css';
 
@@ -11,6 +11,8 @@ const AgentView = () => {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [openMenuId, setOpenMenuId] = useState(null);
   const [slaFilterActive, setSlaFilterActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
   const menuRef = useRef(null);
 
   const getPriorityBadge = (priority) => {
@@ -53,6 +55,15 @@ const AgentView = () => {
   if (slaFilterActive) {
     filteredTickets = filteredTickets.filter(t => t.status === 'Abierto' && (new Date() - new Date(t.time)) > 60*60000);
   }
+
+  // Pagination Logic
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter, priorityFilter, categoryFilter, slaFilterActive]);
+
+  const totalPages = Math.ceil(filteredTickets.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentTickets = filteredTickets.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const formatTime = (dateObj) => {
     const diff = Math.floor((new Date() - new Date(dateObj)) / 60000);
@@ -162,7 +173,7 @@ const AgentView = () => {
         </div>
         
         <div className="ticket-cards-container">
-          {filteredTickets.length > 0 ? filteredTickets.map(ticket => (
+          {currentTickets.length > 0 ? currentTickets.map(ticket => (
             <div key={ticket.id} className="ticket-card" style={{ opacity: ticket.status === 'Cerrado' ? 0.6 : 1 }}>
               <div className="ticket-card-header">
                 <div className="ticket-id">{ticket.id}</div>
@@ -209,6 +220,28 @@ const AgentView = () => {
             </div>
           )}
         </div>
+        
+        {totalPages > 1 && (
+          <div className="pagination-controls">
+            <button 
+              className="btn btn-outline" 
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft size={16} style={{marginRight: '4px'}} /> Anterior
+            </button>
+            <span className="pagination-info">
+              Página {currentPage} de {totalPages}
+            </span>
+            <button 
+              className="btn btn-outline" 
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Siguiente <ChevronRight size={16} style={{marginLeft: '4px'}} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
